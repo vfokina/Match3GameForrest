@@ -3,7 +3,6 @@ using System.Drawing;
 
 namespace Match3GameForrest
 {
-
     public abstract class Element
     {
         public Color Color { get; set; }
@@ -28,6 +27,25 @@ namespace Match3GameForrest
             {
                 g.FillRectangle(brush, Position);
             }
+        }
+    }
+    public class SquareElement : Element
+    {
+        public SquareElement(Color color, Rectangle position) : base(color, position) { }
+
+        public override void Draw(Graphics g)
+        {
+            // Реализация рисования квадрата
+        }
+    }
+
+    public class CircleElement : Element
+    {
+        public CircleElement(Color color, Rectangle position) : base(color, position) { }
+
+        public override void Draw(Graphics g)
+        {
+            // Реализация рисования круга
         }
     }
 }

@@ -1,32 +1,76 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Match3GameForrest
 {
     public partial class GameScreen : UserControl
     {
+        private GameField gameField;
+        private Timer timer;
+        private Label scoreLabel;
+        private Label timeLabel;
+        private int score = 0;
+        private int timeLeft = 60;
+
         public GameScreen()
         {
-            InitializeComponent();// Инициализация игрового поля и других элементов UI
-        }
-        private System.ComponentModel.IContainer components = null;
+            // Инициализация игрового поля и других элементов UI
+            InitializeGameField();
+            InitializeTimer();
+            InitializeUIComponents();
 
-        protected override void Dispose(bool disposing)
+            // Отслеживание событий мыши для взаимодействия с игровым полем
+            this.MouseClick += GameScreen_MouseClick;
+        }
+
+        private void InitializeGameField()
         {
-            if (disposing && (components != null))
+            gameField = new GameField(8);
+            // Добавить логику инициализации игрового поля
+        }
+
+        private void InitializeTimer()
+        {
+            timer = new Timer();
+            timer.Interval = 1000; // 1 second
+            timer.Tick += Timer_Tick;
+        }
+
+        private void InitializeUIComponents()
+        {
+            scoreLabel = new Label();
+            scoreLabel.Text = $"Score: {score}";
+            Controls.Add(scoreLabel);
+
+            timeLabel = new Label();
+            timeLabel.Text = $"Time Left: {timeLeft}s";
+            Controls.Add(timeLabel);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            timeLeft--;
+            timeLabel.Text = $"Time Left: {timeLeft}s";
+
+            if (timeLeft <= 0)
             {
-                components.Dispose();
+                EndGame();
             }
-            base.Dispose(disposing);
         }
 
-        private void InitializeComponent()
+        private void EndGame()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Match3GameForrest";
-            // Сюда добавлю код для инициализации элементов управления на форме
+            MessageBox.Show("Game Over");
+            //Добавить логику для возврата в главное меню
         }
-    }
 
+        private void GameScreen_MouseClick(object sender, MouseEventArgs e)
+        {
+            // Логика обработки клика мыши
+            // Например, выделение элемента под курсором
+        }
+
+        // ВОзможно,напишу дополнительные методы для управления игрой, например, обработчики событий мыши
+    }
 }
